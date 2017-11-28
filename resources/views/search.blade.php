@@ -89,9 +89,13 @@
               @endforeach
               <li class="list-group-item rounded-top-0">
                 <p class="mg-b-0">
-                    <strong class="tx-inverse tx-medium">EDIT |</strong> 
-                    <strong class="tx-inverse tx-medium">EXCHANGE |</strong> 
-                    <strong class="tx-inverse tx-medium">DELETE</strong> 
+    {{--                 <strong class="tx-inverse tx-medium">EDIT |</strong>  --}}
+    @if($transaction->status=='exchange-completed')
+<strong class="tx-inverse tx-medium">EXCHANGED |</strong> 
+                                    @else
+<a href="{{URL::to('exchange')}}/{{$transaction->billNo}}" onclick="return confirm('Are you sure to Exchange bill no : {{$transaction->billNo}} ?')"><strong class="tx-inverse tx-medium">EXCHANGE  |</strong> </a> 
+                                    @endif
+                   <a href="{{URL::to('delete/sale')}}/{{$transaction->id}}" onclick="return confirm('Are you sure to Delete bill no : {{$transaction->billNo}} ?')"> <strong class="tx-inverse tx-medium">DELETE</strong> </a>
                 </p>
               </li>
               @else
@@ -99,10 +103,15 @@
                 <p class="mg-b-0"><strong class="tx-inverse tx-medium">Bill not found</strong> </p>
               </li>
               @endif
+              @else
+              <li class="list-group-item rounded-bottom-0">
+                <p class="mg-b-0"><strong class="tx-inverse tx-medium">Bill not found</strong> </p>
+              </li>
               @endif
             </ul>
           </div>
                     </div>
+
                      @if(Session::has('message'))
                         <p class="{{Session::get('alert')}}">{{ Session::get('message') }}</p>
                      @endif

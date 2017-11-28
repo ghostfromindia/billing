@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\sales;
 use App\product;
 use App\transaction;
@@ -168,7 +169,7 @@ class exchangeController extends Controller
             $report->stock = $stock->stock;
             $report->status = 'exchanged';
             $report->notes = $qty.' added to inventory (exchanged product)';
-            $report->user = '1050';
+            $report->user = Auth::user()->id;
             $report->save();
 
                 }

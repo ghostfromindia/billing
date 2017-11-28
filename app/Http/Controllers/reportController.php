@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\transaction;
 use Excel;
 use Carbon;
-
+use Auth;
+use App\report;
 class reportController extends Controller
 {
     public function report(Request $request){
@@ -17,6 +18,17 @@ class reportController extends Controller
     		
     	$datefrom = Carbon::parse($request->from);
     	$dateto = Carbon::parse($request->to);
+
+                #Report
+                $report = new report;
+                $report->product = '000';
+                $report->stock = '000';
+                $report->status = 'report';
+                $report->notes = $request->type.' Report from '.$datefrom->format('d F Y').' to '.$dateto->format('d F Y').' downloaded by '.Auth::user()->name;
+                $report->user = Auth::user()->id;
+                $report->save();
+
+
     	if($request->type == 'cash'){
 
         $transactions = transaction::whereBetween('created_at', [$datefrom->format('Y-m-d')." 00:00:00", $dateto->format('Y-m-d')." 23:59:59"])->where('card','0')->get();

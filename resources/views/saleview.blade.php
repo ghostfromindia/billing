@@ -50,7 +50,13 @@
                                 <td>{{$product->customernote}}</td>
                                 <td>{{$product->total}}</td>
                                 <td>{{Carbon::parse($product->created_at)->format('d F Y')}}</td>
-                                <td></td>
+                                <td>
+                                    @if($product->status=='exchange-completed')
+Exchanged
+                                    @else
+<a href="{{URL::to('exchange')}}/{{$product->billNo}}" onclick="return confirm('Are you sure to Exchange bill no : {{$product->billNo}} ?')">Exchange</a> 
+                                    @endif
+                                    | <a href="{{URL::to('delete/sale')}}/{{$product->id}}" onclick="return confirm('Are you sure to Delete bill no : {{$product->billNo}} ?')">Delete Bill</a></td>
                             </tr>
                             @endforeach
 

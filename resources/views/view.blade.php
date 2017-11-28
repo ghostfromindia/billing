@@ -31,7 +31,7 @@
                                 <td>{{$product->price}}</td>
                                 <td>{{$product->gst}}</td>
                                 <td>{{$product->discount}}</td>
-                                <td></td>
+                                <td><a href="{{URL::to('delete/product')}}/{{$product->id}}" onclick="return confirm('Are you sure to delete {{$product->name}}?')">Delete</a></td>
                             </tr>
                             @endforeach
                             {{$products->links()}}

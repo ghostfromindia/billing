@@ -60,6 +60,9 @@
                 <p class="mg-b-0"><i class="fa fa-check tx-success mg-r-8"></i>
                     <strong class="tx-inverse tx-medium">{{$sale->product->name}}</strong> 
                     <span class="text-muted">| {{$sale->qty}} QTY | {{$sale->gst}} GST | {{$sale->discount}}% DIS |</span>
+                    <a href="{{URL::to('delete/row')}}/{{$sale->id}}" onclick="return confirm('Are you sure ?')">
+                      <span style="float: right;padding-left:10px;color: red;"> X</span>
+                    </a>
                     <span style="float: right;font-weight: bold;">₹ {{$sale->total}}</span></p>
                 @php 
                 $total+=$sale->total; 

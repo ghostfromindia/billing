@@ -12,12 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
+});
+
+Route::get('home', function () {
+    return redirect('sale');
 });
 
 Auth::routes();
 
-Route::get('home', 'HomeController@index')->name('home');
+// Route::get('home', 'HomeController@index')->name('home');
 Route::get('product/add', 'productController@addui');
 Route::get('product/edit/stock', 'productController@stockui');
 Route::get('sale', 'saleController@home');
@@ -41,5 +45,16 @@ Route::post('exchange/complete', 'exchangeController@complete');
 Route::post('bill/check/', 'searchController@findbill');
 Route::post('report/download/', 'reportController@download');
 
+#Delete routes
+Route::get('delete/product/{id}', 'deleteController@product');
+Route::get('delete/sale/{id}', 'deleteController@sale');
+Route::get('delete/row/{id}', 'deleteController@row');
+
 #Ajax routes
 Route::get('product/add/check/{code}', 'productController@check');
+
+#logout
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+#Session clear
+Route::get('session/clear', 'deleteController@clearkey');

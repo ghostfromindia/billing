@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\sales;
+use App\report;
 use App\product;
 use App\transaction;
 use carbon\Carbon;
@@ -86,6 +88,21 @@ class saleController extends Controller
         	foreach ($sales as $sale) {
         		$product = sales::find($sale->id);
         		$product->status = 'completed';
+
+                #qty change saving
+                $change = product::where('code',$product->code)->first();
+                $change->stock -= $product->qty;
+                $change->save();
+
+                #Report
+                $report = new report;
+                $report->product = $product->code;
+                $report->stock = $change->stock;
+                $report->status = 'Sales';
+                $report->notes = $product->qty.' quantity sold';
+                $report->user = Auth::user()->id;
+                $report->save();
+
         		$product->billNo = $billno;
         		$product->save();
         	}
